@@ -49,6 +49,7 @@
             <p><strong>DOI:</strong> {{ p.doi if p.doi else 'N/A' }}</p>
             <p><strong>Year:</strong> {{ p.conference_year }} | <strong>Volume:</strong> {{ p.proceedings_volume }}</p>
             <p><strong>Published:</strong> {{ p.date_published if p.date_published else 'N/A' }}</p>
+            <p><strong>References:</strong> {{ p.references_count if p.references_count is defined else (p.references|length if p.references else 0) }}</p>
             {% if p.keywords %}
               <p><strong>Keywords:</strong> {{ p.keywords|join(', ') }}</p>
             {% endif %}

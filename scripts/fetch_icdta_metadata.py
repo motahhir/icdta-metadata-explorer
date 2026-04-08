@@ -137,6 +137,24 @@ def normalize_authors(author_field) -> List[str]:
     return [x for x in result if x]
 
 
+def extract_references(soup: BeautifulSoup) -> List[str]:
+    refs: List[str] = []
+    for li in soup.select("ol.c-article-references li"):
+        text = " ".join(li.stripped_strings)
+        text = re.sub(r"\s+", " ", text).strip()
+        if text:
+            refs.append(text)
+    # Keep order while removing exact duplicates.
+    seen = set()
+    out: List[str] = []
+    for r in refs:
+        if r in seen:
+            continue
+        seen.add(r)
+        out.append(r)
+    return out
+
+
 def metadata_from_chapter_url(session: requests.Session, chapter_url: str, source: VolumeSource) -> Optional[Dict]:
     try:
         html = get_html(session, chapter_url)
@@ -145,6 +163,7 @@ def metadata_from_chapter_url(session: requests.Session, chapter_url: str, sourc
 
     soup = BeautifulSoup(html, "html.parser")
     data = parse_jsonld_chapter(soup)
+    refs = extract_references(soup)
 
     # Fallback metadata from the page title when JSON-LD is unavailable.
     if data is None:
@@ -160,6 +179,8 @@ def metadata_from_chapter_url(session: requests.Session, chapter_url: str, sourc
             "url": chapter_url,
             "abstract": "",
             "keywords": [],
+            "references": refs,
+            "references_count": len(refs),
             "date_published": None,
             "conference_name": CONFERENCE_NAME,
             "conference_year": source.year,
@@ -190,6 +211,8 @@ def metadata_from_chapter_url(session: requests.Session, chapter_url: str, sourc
         "url": data.get("url") or chapter_url,
         "abstract": (data.get("description") or "").strip(),
         "keywords": keywords,
+        "references": refs,
+        "references_count": len(refs),
         "date_published": data.get("datePublished"),
         "conference_name": CONFERENCE_NAME,
         "conference_year": source.year,

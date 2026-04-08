@@ -130,6 +130,9 @@ function render() {
           const year = escapeHtml(String(p.conference_year || "N/A"));
           const volume = escapeHtml(p.proceedings_volume || "N/A");
           const published = escapeHtml(p.date_published || "N/A");
+          const refsCount = Number.isFinite(p.references_count)
+            ? p.references_count
+            : ((p.references || []).length || 0);
           const keywords = (p.keywords || []).map(escapeHtml).join(", ");
           const abs = escapeHtml(p.abstract || "");
           const url = escapeHtml(p.url || "#");
@@ -143,6 +146,7 @@ function render() {
               <p><strong>DOI:</strong> ${doi}</p>
               <p><strong>Year:</strong> ${year} | <strong>Volume:</strong> ${volume}</p>
               <p><strong>Published:</strong> ${published}</p>
+              <p><strong>References:</strong> ${refsCount}</p>
               <p><a class="clear" href="${localPaperUrl}">Open paper page</a></p>
               <p><strong>Source:</strong> <a href="${url}" target="_blank" rel="noreferrer">Springer Chapter Page</a></p>
               ${keywords ? `<p><strong>Keywords:</strong> ${keywords}</p>` : ""}

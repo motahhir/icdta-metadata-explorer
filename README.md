@@ -93,6 +93,8 @@ Each paper entry in `data/papers.json` includes fields such as:
 - `url`
 - `abstract`
 - `keywords`
+- `references`
+- `references_count`
 - `date_published`
 - `conference_name`
 - `conference_year`

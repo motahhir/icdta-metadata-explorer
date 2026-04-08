@@ -43,6 +43,7 @@ def build_paper_html(p: Dict) -> str:
     year = str(p.get("conference_year") or "")
     volume = p.get("proceedings_volume") or ""
     date_published = p.get("date_published") or ""
+    references: List[str] = p.get("references") or []
     paper_id = p.get("paper_id")
 
     local_path = f"/papers/{paper_id}.html"
@@ -53,6 +54,7 @@ def build_paper_html(p: Dict) -> str:
     keyword_meta = "\n".join(meta_tag("citation_keywords", k) for k in (p.get("keywords") or []) if k)
 
     keywords_html = ", ".join(html.escape(k) for k in (p.get("keywords") or []))
+    references_html = "".join(f"<li>{html.escape(r)}</li>" for r in references)
     authors_html = ", ".join(html.escape(a) for a in authors) if authors else "N/A"
     doi_html = html.escape(doi) if doi else "N/A"
     source_url_html = html.escape(source_url) if source_url else "#"
@@ -97,9 +99,11 @@ def build_paper_html(p: Dict) -> str:
           <p><strong>DOI:</strong> {doi_html}</p>
           <p><strong>Year:</strong> {html.escape(year)} | <strong>Volume:</strong> {html.escape(volume)}</p>
           <p><strong>Published:</strong> {html.escape(date_published or "N/A")}</p>
+          <p><strong>References:</strong> {len(references)}</p>
           <p><strong>Source:</strong> {source_anchor}</p>
           {"<p><strong>Keywords:</strong> " + keywords_html + "</p>" if keywords_html else ""}
           {"<p class='abstract'>" + html.escape(abstract) + "</p>" if abstract else ""}
+          {"<h3>Reference List</h3><ol>" + references_html + "</ol>" if references_html else "<p>No references extracted.</p>"}
         </article>
       </section>
     </main>
