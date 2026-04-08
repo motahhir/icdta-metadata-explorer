@@ -8,6 +8,10 @@ from typing import Dict, List, Optional, Set
 
 import requests
 from bs4 import BeautifulSoup
+try:
+    from build_static_site import build_static_site
+except ModuleNotFoundError:
+    from scripts.build_static_site import build_static_site
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 DATA_DIR = BASE_DIR / "data"
@@ -206,6 +210,26 @@ def deduplicate(papers: List[Dict]) -> List[Dict]:
     return out
 
 
+def slugify(text: str) -> str:
+    base = re.sub(r"[^a-z0-9]+", "-", (text or "").lower()).strip("-")
+    return base or "paper"
+
+
+def assign_paper_ids(papers: List[Dict]) -> None:
+    used = set()
+    for p in papers:
+        year = str(p.get("conference_year") or "")
+        seed = p.get("doi") or f"{p.get('title', '')}-{year}"
+        slug = slugify(seed)
+        candidate = slug
+        idx = 2
+        while candidate in used:
+            candidate = f"{slug}-{idx}"
+            idx += 1
+        used.add(candidate)
+        p["paper_id"] = candidate
+
+
 def main() -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     DOCS_OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
@@ -233,6 +257,7 @@ def main() -> None:
 
     unique_papers = deduplicate(all_papers)
     unique_papers.sort(key=lambda x: (-int(x.get("conference_year", 0)), x.get("proceedings_volume", ""), x.get("title", "")))
+    assign_paper_ids(unique_papers)
 
     payload = {
         "conference": f"{CONFERENCE_NAME} (ICDTA)",
@@ -247,6 +272,8 @@ def main() -> None:
     DOCS_OUTPUT_FILE.write_text(rendered, encoding="utf-8")
     print(f"Saved {len(unique_papers)} papers to {OUTPUT_FILE}")
     print(f"Saved {len(unique_papers)} papers to {DOCS_OUTPUT_FILE}")
+    generated = build_static_site()
+    print(f"Generated {generated} static paper pages for docs/")
 
 
 if __name__ == "__main__":

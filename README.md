@@ -55,6 +55,9 @@ This project also includes a static build under `docs/` that runs fully on GitHu
 - `docs/assets/style.css`
 - `docs/assets/app.js`
 - `docs/data/papers.json`
+- `docs/papers/*.html` (one page per paper with Scholar-style citation meta tags)
+- `docs/sitemap.xml`
+- `docs/robots.txt`
 
 ### Keep docs metadata up-to-date
 When you run:
@@ -64,6 +67,7 @@ python scripts/fetch_icdta_metadata.py
 it now updates both:
 - `data/papers.json` (Flask app)
 - `docs/data/papers.json` (GitHub Pages app)
+- `docs/papers/*.html` and `docs/sitemap.xml` (Scholar-friendly static pages)
 
 ### Publish steps
 1. Create a GitHub repository and add it as remote:

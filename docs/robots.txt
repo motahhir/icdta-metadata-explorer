@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://motahhir.github.io/icdta-metadata-explorer/sitemap.xml
