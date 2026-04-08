@@ -59,7 +59,7 @@ def build_paper_html(p: Dict) -> str:
     doi_html = html.escape(doi) if doi else "N/A"
     source_url_html = html.escape(source_url) if source_url else "#"
     source_anchor = (
-        f'<a href="{source_url_html}" target="_blank" rel="noreferrer">Springer Chapter Page</a>'
+        f'<a href="{source_url_html}" target="_blank" rel="noreferrer">Springer Conference Paper Page</a>'
         if source_url
         else "N/A"
     )

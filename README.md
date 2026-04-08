@@ -1,6 +1,6 @@
 # ICDTA Metadata Explorer
 
-A small website that aggregates ICDTA paper metadata from Springer chapter pages and makes it searchable.
+A small website that aggregates ICDTA conference paper metadata from Springer pages and makes it searchable.
 
 ## Features
 - Collects metadata for ICDTA proceedings (2021-2025 by default)

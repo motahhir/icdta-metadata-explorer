@@ -148,7 +148,7 @@ function render() {
               <p><strong>Published:</strong> ${published}</p>
               <p><strong>References:</strong> ${refsCount}</p>
               <p><a class="clear" href="${localPaperUrl}">Open paper page</a></p>
-              <p><strong>Source:</strong> <a href="${url}" target="_blank" rel="noreferrer">Springer Chapter Page</a></p>
+              <p><strong>Source:</strong> <a href="${url}" target="_blank" rel="noreferrer">Springer Conference Paper Page</a></p>
               ${keywords ? `<p><strong>Keywords:</strong> ${keywords}</p>` : ""}
               ${abs ? `<p class="abstract">${abs}</p>` : ""}
             </article>
