@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ICDTA Metadata Explorer</title>
+    <link rel="stylesheet" href="assets/style.css">
+  </head>
+  <body>
+    <main class="container">
+      <header>
+        <h1 id="conference-title">ICDTA</h1>
+        <p class="subtitle">Search and browse ICDTA paper metadata</p>
+        <p class="meta">
+          Total indexed papers: <strong id="total-indexed">0</strong>
+          <span id="updated-at-wrap"></span>
+        </p>
+      </header>
+
+      <section class="filters">
+        <form id="filters-form">
+          <input id="q" type="text" placeholder="Search title, author, DOI, abstract, keywords">
+          <select id="year"><option value="">All years</option></select>
+          <select id="volume"><option value="">All volumes</option></select>
+          <button type="submit">Filter</button>
+          <a class="clear" href="#" id="reset-btn">Reset</a>
+        </form>
+      </section>
+
+      <section class="results">
+        <p class="meta" id="results-meta">Showing 0 of 0 matching papers</p>
+        <div id="results-list"></div>
+      </section>
+
+      <nav class="pager">
+        <a href="#" id="prev-link">Previous</a>
+        <span id="page-label">Page 1</span>
+        <a href="#" id="next-link">Next</a>
+      </nav>
+    </main>
+
+    <script src="assets/app.js"></script>
+  </body>
+</html>

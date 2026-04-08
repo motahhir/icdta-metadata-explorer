@@ -1,0 +1,112 @@
+:root {
+  --bg: #f8f7f4;
+  --text: #12100f;
+  --muted: #5a534f;
+  --panel: #fffdf8;
+  --line: #e2d8ca;
+  --accent: #006f62;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 10% 10%, #f4ece0 0, transparent 28%),
+    radial-gradient(circle at 85% 15%, #e7f6f2 0, transparent 22%),
+    var(--bg);
+  color: var(--text);
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+
+h1 {
+  font-family: "Space Grotesk", "Trebuchet MS", sans-serif;
+  margin-bottom: .2rem;
+}
+
+.subtitle { color: var(--muted); margin-top: 0; }
+.meta { color: var(--muted); font-size: .95rem; }
+
+.filters form {
+  display: grid;
+  grid-template-columns: 1.8fr .8fr .8fr auto auto;
+  gap: .6rem;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+input, select, button, .clear {
+  border: 1px solid var(--line);
+  border-radius: .6rem;
+  padding: .65rem .7rem;
+  background: white;
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.clear {
+  text-align: center;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.card {
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--accent);
+  border-radius: .7rem;
+  background: var(--panel);
+  padding: 1rem 1rem .8rem;
+  margin: .8rem 0;
+}
+
+.card h2 {
+  font-size: 1.06rem;
+  margin: 0 0 .4rem;
+}
+
+.card a { color: #0d4f89; text-decoration: none; }
+.card a:hover { text-decoration: underline; }
+
+.card p {
+  margin: .3rem 0;
+  line-height: 1.35;
+  font-size: .95rem;
+}
+
+.abstract {
+  color: #2b2623;
+  background: #f6f0e8;
+  padding: .5rem .6rem;
+  border-radius: .5rem;
+}
+
+.pager {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1.2rem;
+}
+
+.pager a {
+  text-decoration: none;
+  color: #0d4f89;
+  font-weight: 600;
+}
+
+@media (max-width: 860px) {
+  .filters form {
+    grid-template-columns: 1fr;
+  }
+}

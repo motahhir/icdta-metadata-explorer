@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ICDTA Metadata Explorer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <main class="container">
+      <header>
+        <h1>{{ conference }}</h1>
+        <p class="subtitle">Search and browse ICDTA paper metadata</p>
+        <p class="meta">Total indexed papers: <strong>{{ count }}</strong>
+        {% if generated_at %} | Last update: {{ generated_at }}{% endif %}</p>
+      </header>
+
+      <section class="filters">
+        <form method="get">
+          <input type="text" name="q" value="{{ q }}" placeholder="Search title, author, DOI, abstract, keywords">
+
+          <select name="year">
+            <option value="">All years</option>
+            {% for y in years %}
+              <option value="{{ y }}" {% if y == year %}selected{% endif %}>{{ y }}</option>
+            {% endfor %}
+          </select>
+
+          <select name="volume">
+            <option value="">All volumes</option>
+            {% for v in volumes %}
+              <option value="{{ v }}" {% if v == volume %}selected{% endif %}>{{ v }}</option>
+            {% endfor %}
+          </select>
+
+          <button type="submit">Filter</button>
+          <a class="clear" href="{{ url_for('index') }}">Reset</a>
+        </form>
+      </section>
+
+      <section class="results">
+        <p class="meta">Showing {{ results|length }} of {{ total }} matching papers</p>
+
+        {% for p in results %}
+          <article class="card">
+            <h2><a href="{{ p.url }}" target="_blank" rel="noreferrer">{{ p.title }}</a></h2>
+            <p><strong>Authors:</strong> {{ p.authors|join(', ') if p.authors else 'N/A' }}</p>
+            <p><strong>Conference:</strong> {{ p.conference_name if p.conference_name else conference }}</p>
+            <p><strong>DOI:</strong> {{ p.doi if p.doi else 'N/A' }}</p>
+            <p><strong>Year:</strong> {{ p.conference_year }} | <strong>Volume:</strong> {{ p.proceedings_volume }}</p>
+            <p><strong>Published:</strong> {{ p.date_published if p.date_published else 'N/A' }}</p>
+            {% if p.keywords %}
+              <p><strong>Keywords:</strong> {{ p.keywords|join(', ') }}</p>
+            {% endif %}
+            {% if p.abstract %}
+              <p class="abstract">{{ p.abstract }}</p>
+            {% endif %}
+          </article>
+        {% else %}
+          <p>No papers found.</p>
+        {% endfor %}
+      </section>
+
+      <nav class="pager">
+        {% if has_prev %}
+          <a href="{{ url_for('index', q=q, year=year, volume=volume, page=page-1) }}">Previous</a>
+        {% endif %}
+        <span>Page {{ page }}</span>
+        {% if has_next %}
+          <a href="{{ url_for('index', q=q, year=year, volume=volume, page=page+1) }}">Next</a>
+        {% endif %}
+      </nav>
+    </main>
+  </body>
+</html>
