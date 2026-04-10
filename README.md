@@ -1,4 +1,4 @@
-# ICDTA Metadata Explorer
+# ICDTA Proceedings
 
 A small website that aggregates ICDTA conference paper metadata from Springer pages and makes it searchable.
 
